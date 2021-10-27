@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class WorldGenerator : MonoBehaviour
 {
+	public enum DrawMode { NoiseMap, ColorMap};
+	public DrawMode drawMode;
+
 	private MeshFilter meshFilter;
 
 	[SerializeField]
@@ -18,9 +21,8 @@ public class WorldGenerator : MonoBehaviour
 	[SerializeField]
 	private AnimationCurve heightCurve;
 
-	// The number of cycles of the basic noise pattern that are repeated
-	// over the width and height of the texture.
-	public float scale = 1.0F;
+	[SerializeField]
+	private Gradient colorGradient;
 
 	public float heightScale = 1f;
 	public float heightOffset = 1f;
@@ -32,7 +34,7 @@ public class WorldGenerator : MonoBehaviour
 	private NoiseSettings noiseSettings;
 
 	[SerializeField]
-	private NoiseHelper noiseHelper;
+	private MapDisplay mapDisplay;
 
 	public bool autoUpdate = false;
 
@@ -53,8 +55,12 @@ public class WorldGenerator : MonoBehaviour
 
 	public void GenerateNoiseMap()
 	{
-		float[,] noiseMap = Noise.GenerateNoiseMap(100, 100, noiseSettings);
-		noiseHelper.DrawNoiseMap(noiseMap);
+		float[,] noiseMap = Noise.GenerateNoiseMap(cellAmount.x + 1, cellAmount.y + 1, noiseSettings);
+
+		if (drawMode == DrawMode.NoiseMap)
+			mapDisplay.DrawTexture(TextureGenerator.TextureFromHeightMap(noiseMap));
+		if (drawMode == DrawMode.ColorMap)
+			mapDisplay.DrawTexture(TextureGenerator.TextureFromHeightMap(noiseMap, colorGradient));
 	}
 
 
@@ -71,7 +77,11 @@ public class WorldGenerator : MonoBehaviour
 			return new Mesh();
 
 		float[,] noiseMap = Noise.GenerateNoiseMap(cellAmount.x + 1, cellAmount.y + 1, noiseSettings);
-		noiseHelper.DrawNoiseMap(noiseMap);
+
+		if (drawMode == DrawMode.NoiseMap)
+			mapDisplay.DrawTexture(TextureGenerator.TextureFromHeightMap(noiseMap));
+		if (drawMode == DrawMode.ColorMap)
+			mapDisplay.DrawTexture(TextureGenerator.TextureFromHeightMap(noiseMap, colorGradient));
 
 		Mesh mesh = new Mesh();
 
@@ -126,6 +136,9 @@ public class WorldGenerator : MonoBehaviour
 		//	new Vector2(1, 1)
 		//};
 		//
+
+		//mesh.RecalculateBounds();
+		mesh.RecalculateNormals();
 
 		return mesh;
 	}
