@@ -4,11 +4,14 @@ using UnityEngine;
 
 public static class TextureGenerator
 {
-	public static Texture2D TextureFromColorMap(Color[] colorMap, int width, int height)
+	public static Texture2D TextureFromColorMap(Color[] colorMap, int width, int height, bool usePointFilter)
 	{
 		Texture2D texture = new Texture2D(width, height);
 		texture.SetPixels(colorMap);
-		texture.filterMode = FilterMode.Point;
+		if (usePointFilter)
+		{
+			texture.filterMode = FilterMode.Point;
+		}
 		texture.wrapMode = TextureWrapMode.Clamp;
 		texture.Apply();
 		return texture;
@@ -29,10 +32,10 @@ public static class TextureGenerator
 			}
 		}
 
-		return TextureFromColorMap(colorMap, width, height);
+		return TextureFromColorMap(colorMap, width, height, false);
 	}
 
-	public static Texture2D TextureFromHeightMap(float[,] heightMap, Gradient colorGradient)
+	public static Texture2D TextureFromHeightMap(float[,] heightMap, TextureGeneratorSettings settings)
 	{
 		int width = heightMap.GetLength(0);
 		int height = heightMap.GetLength(1);
@@ -43,10 +46,17 @@ public static class TextureGenerator
 		{
 			for (int x = 0; x < width; x++)
 			{
-				colorMap[x + y * width] = colorGradient.Evaluate(heightMap[x, y]);
+				colorMap[x + y * width] = settings.colorGradient.Evaluate(heightMap[x, y]);
 			}
 		}
 
-		return TextureFromColorMap(colorMap, width, height);
+		return TextureFromColorMap(colorMap, width, height, settings.useFilterModePoint);
 	}
+}
+
+[System.Serializable]
+public struct TextureGeneratorSettings
+{
+	public Gradient colorGradient;
+	public bool useFilterModePoint;
 }

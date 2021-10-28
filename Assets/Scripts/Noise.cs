@@ -49,18 +49,6 @@ public class Noise
 					frequency *= noiseSettings.lacunarity;
 				}
 
-				//foreach (NoisePass pass in noiseSettings.passes)
-				//{
-				//	if (!pass.active)
-				//		continue;
-
-				//	float sampleX = pass.seedOffset + noiseSettings.seed + x / noiseSettings.scale * pass.frequency;
-				//	float sampleY = pass.seedOffset + noiseSettings.seed + y / noiseSettings.scale * pass.frequency;
-
-				//	float perlinValue = Mathf.PerlinNoise(sampleX, sampleY) * 2 - 1;
-				//	noiseHeight += perlinValue * pass.amplitude;
-				//}
-
 				if (noiseHeight > maxNoiseHeight)
 					maxNoiseHeight = noiseHeight;
 				if (noiseHeight < minNoiseHeight)
@@ -95,12 +83,12 @@ public struct NoiseSettings
 	public Vector2 offset;
 }
 
-[System.Serializable]
-public struct NoisePass
-{
-	public bool active;
-	public float frequency;
-	public float amplitude;
-	public int seedOffset;
-	public float heightOffset;
-}
+//[System.Serializable]
+//public struct NoisePass
+//{
+//	public bool active;
+//	public float frequency;
+//	public float amplitude;
+//	public int seedOffset;
+//	public float heightOffset;
+//}
