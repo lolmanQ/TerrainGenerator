@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class EndlessTerrain : MonoBehaviour
 {
-	public const float maxViewDistance = 300;
+	public const float maxViewDistance = 450;
 	public Transform viewer;
+
+	public Transform mapParent;
 
 	public static Vector2 viwerPosition;
 	int chunkSize;
@@ -48,7 +50,7 @@ public class EndlessTerrain : MonoBehaviour
 				}
 				else
 				{
-					terrainChunkDictionary.Add(viewedChunkCoord, new TerrainData(viewedChunkCoord, chunkSize));
+					terrainChunkDictionary.Add(viewedChunkCoord, new TerrainData(viewedChunkCoord, chunkSize, mapParent));
 				}
 
 			}

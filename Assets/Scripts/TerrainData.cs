@@ -8,7 +8,7 @@ public class TerrainData
 	Vector2 position;
 	Bounds bounds;
 
-	public TerrainData(Vector2 coord, int size)
+	public TerrainData(Vector2 coord, int size, Transform parent)
 	{
 		position = coord * size;
 		bounds = new Bounds(position, Vector3.one * size);
@@ -16,6 +16,7 @@ public class TerrainData
 
 		meshObject = GameObject.CreatePrimitive(PrimitiveType.Plane);
 		meshObject.transform.position = pos3D;
+		meshObject.transform.parent = parent;
 
 		SetVisible(false);
 	}
