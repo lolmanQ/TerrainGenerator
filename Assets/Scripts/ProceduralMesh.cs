@@ -14,7 +14,6 @@ public class ProceduralMesh : MonoBehaviour
 	// Start is called before the first frame update
 	void Start()
 	{
-
 		//mesh.normals = new Vector3[]
 		//{
 		//	Vector3.up,
@@ -40,8 +39,9 @@ public class ProceduralMesh : MonoBehaviour
 	public void GenerateMesh()
 	{
 		mesh = GetComponent<MeshFilter>().sharedMesh;
+		//mesh = GetComponent<MeshFilter>().mesh;
 
-		mesh = new Mesh();
+		//mesh = new Mesh();
 
 		VertexList.Clear();
 		VertexPointer.Clear();
@@ -118,6 +118,6 @@ public class ProceduralMesh : MonoBehaviour
 		//	2,5,7
 		//};
 
-		//mesh.RecalculateNormals();
+		mesh.RecalculateNormals();
 	}
 }
