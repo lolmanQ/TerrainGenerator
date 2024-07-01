@@ -5,7 +5,8 @@ using UnityEngine;
 public class ChunkGenerator : MonoBehaviour
 {
 	public enum DrawMode { NoiseMap, ColorMap, MeshNoise, MeshColor};
-	public DrawMode drawMode;
+	[SerializeField]
+	private DrawMode drawMode;
 
 	public const int CHUNKSIZE = 240;
 

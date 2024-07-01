@@ -23,6 +23,11 @@ public class ProceduralMeshEditor : Editor
 			proceduralMesh.GenerateMesh();
 		}
 
+		if(GUILayout.Button("Reset mesh"))
+		{
+			proceduralMesh.ResetMesh();
+		}
+
 		//if(GUILayout.Button("Generate color map"))
 		//{
 		//	worldGenerator.GenerateNoiseMap();

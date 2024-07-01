@@ -36,6 +36,9 @@ public class ProceduralMesh : MonoBehaviour
 
 	List<Quad> topQuads = new List<Quad>();
 
+	[SerializeField]
+	private Player player;
+
 	// Start is called before the first frame update
 	void Start()
 	{
@@ -69,6 +72,20 @@ public class ProceduralMesh : MonoBehaviour
 			item.QuadUpdate();
 		}
 
+		List<Vector3> verticesList = new List<Vector3>();
+		Dictionary<Vector3, int> newDict = new Dictionary<Vector3, int>();
+
+		int vertexIndex = 0;
+		foreach (KeyValuePair<Vector3, int> vertex in VertexPointer)
+		{
+			verticesList.Add(vertex.Key);
+			newDict[vertex.Key] = vertexIndex;
+			vertexIndex++;
+		}
+
+		VertexPointer = newDict;
+		VertexList = verticesList;
+
 		List<int> triList = new List<int>();
 
 		for (int i = 0; i < topQuads.Count; i++)
@@ -101,10 +118,12 @@ public class ProceduralMesh : MonoBehaviour
 		//mesh = GetComponent<MeshFilter>().mesh;
 
 		mesh = new Mesh();
+		mesh.indexFormat = UnityEngine.Rendering.IndexFormat.UInt32;
 
 		VertexList.Clear();
 		VertexPointer.Clear();
 		EdgeDictionary.Clear();
+		topQuads.Clear();
 
 		#region Vertex and Edge assignment
 		//AddVertex(0, 0, 0);
@@ -171,13 +190,13 @@ public class ProceduralMesh : MonoBehaviour
 		//topQuads[0].subQuads[1].SubDevide();
 		//topQuads[2].SubDevide();
 
-		//foreach (Quad quad in topQuads)
-		//{
-		//	for (int i = 0; i < generalLevelOfDetail; i++)
-		//	{
-		//		quad.SubDevide();
-		//	}
-		//}
+		foreach (Quad quad in topQuads)
+		{
+			for (int i = 0; i < generalLevelOfDetail; i++)
+			{
+				quad.SubDevide();
+			}
+		}
 
 
 		List<int> triList = new List<int>();
@@ -203,6 +222,12 @@ public class ProceduralMesh : MonoBehaviour
 
 		mesh.RecalculateNormals();
 
+		meshFilter.sharedMesh = mesh;
+	}
+
+	public void ResetMesh()
+	{
+		mesh = new Mesh();
 		meshFilter.sharedMesh = mesh;
 	}
 

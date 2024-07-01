@@ -7,6 +7,7 @@ public class Edge
 	public Vector3 vertexA;
 	public Vector3 vertexB;
 
+	public int subVertexUsers = 0;
 	Vector3 subVertex;
 
 	public List<Edge> subEdges = new List<Edge>();
@@ -38,16 +39,19 @@ public class Edge
 
 	public void ReGroup()
 	{
-		if (subEdges.Count > 0)
+		if(subVertexUsers == 0)
 		{
-			for (int i = 0; i < subEdges.Count; i++)
+			if (subEdges.Count > 0)
 			{
-				subEdges[i].ReGroup();
+				for (int i = 0; i < subEdges.Count; i++)
+				{
+					subEdges[i].ReGroup();
+				}
 			}
-		}
 
-		ProceduralMesh.VertexList.Remove(subVertex);
-		ProceduralMesh.VertexPointer.Remove(subVertex);
+			ProceduralMesh.VertexList.Remove(subVertex);
+			ProceduralMesh.VertexPointer.Remove(subVertex);
+		}
 	}
 
 	public int[] GenerateTriangle(Vector3 vertexC, bool invert)

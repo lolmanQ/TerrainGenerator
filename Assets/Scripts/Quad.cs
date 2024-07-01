@@ -23,6 +23,7 @@ public class Quad
 		foreach (Edge edge in edges)
 		{
 			edge.SubDevide();
+			edge.subVertexUsers++;
 		}
 
 		Edge innerEdgeDown = new Edge(edges[0].subEdges[0].vertexB, mainVertex);
@@ -158,6 +159,11 @@ public class Quad
 	{
 		//ProceduralMesh.VertexList.Remove(mainVertex);
 		//ProceduralMesh.VertexPointer.Remove(mainVertex);
+		//foreach (Edge edge in edges)
+		//{
+		//	edge.subVertexUsers--;
+		//	edge.ReGroup();
+		//}
 	}
 }
 
